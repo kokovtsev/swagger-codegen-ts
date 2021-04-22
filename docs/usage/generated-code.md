@@ -4,14 +4,14 @@
 
 ## Basic example: using a single controller
 
-In the most basic scenario, you may need just a single **controller** from the generated code. In this case, 
+In the most basic scenario, you may need just a single **controller** from the generated code. In this case, the code is as simple as this:
 
 ```typescript
 import { petController as createPetController } from "./src/generated/petstore.json/paths/PetController";
 import { Pet } from "./src/generated/petstore.json/components/schemas/Pet";
 
 // Creating a controller, see the "HTTP Clients" wiki page for more details
-const petController = createPetController(fetchHttpClient);
+const petController = createPetController({ httpClient: fetchHttpClient });
 
 // The returned object is guaranteed to be a valid `Pet`
 const createdPet: Promise<Pet> = petController.addPet({
@@ -23,6 +23,20 @@ const createdPet: Promise<Pet> = petController.addPet({
 });
 ```
 
+## The `controllers` object
+
+In most projects, the generated code includes more than one controller. Sometimes it's handy to have a single entry points to all of them - for this purpose, the `controllers` object is created by the generator:
+
+```typescript
+import { controllers } from "./src/generated/petstore.json/paths/paths";
+
+const api = controllers({ httpClient: fetchHttpClient });
+const pets = api.petController.findPetsByStatus({
+  query: { status: some("available") },
+});
+// api.userController and api.storeController are also available
+```
+
 ## Plugging different HTTP clients
 
 Generated functions may be instructed to return any generic type with one or two type arguments, for example `Promise<Response>` or `Observable<Either<Error, Response>>`. The return type is specified by providing a corresponding **client**. In the example below, providing an `rxjsHttpClient` makes the `petController` return RxJS's `Observable`:
@@ -31,7 +45,7 @@ Generated functions may be instructed to return any generic type with one or two
 import { Observable } from "rxjs";
 
 // Now create another controller returning an RxJS stream
-const petRxjsController = createPetController(rxjsHttpClient);
+const petRxjsController = createPetController({ httpClient: rxjsHttpClient });
 const createdPet$: Observable<Pet> = petRxjsController.addPet({
   body: {
     name: "Spotty",
@@ -47,10 +61,10 @@ The list of bundled clients and more information can be found in the [Clients](.
 The codegen provides first class support for the `RemoteData<Error, Response>` type, making it easier to build complex logic on top of the generated controllers.
 
 ```typescript
-const petRDController = createPetController(liveDataHttpClient);
+const petRDController = createPetController({ httpClient: liveDataHttpClient });
 /**
  * `LiveData<E, A> = Observable<RemoteData<E, A>>`
- * 
+ *
  * Emits `pending` when the request is started,
  * then `success(Pet)` or `failure(Error)` upon completion.
  */

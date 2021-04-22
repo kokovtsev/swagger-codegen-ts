@@ -24,12 +24,10 @@ const rxjsHttpClient: HTTPClient1<"Observable"> = {
   ...Monad,
   request: (req) => {
     return ajax({
-        url: req.url,
-        method: req.method,
-        // add the logic to handle `req.body` and other parameters
-    }).pipe(
-        
-    );
+      url: req.url,
+      method: req.method,
+      // add the logic to handle `req.body` and other parameters
+    }).pipe();
   },
   throwError,
 };

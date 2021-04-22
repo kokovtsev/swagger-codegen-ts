@@ -3,9 +3,9 @@
 # Typesafe OpenAPI generator for TypeScript
 
 ## Features
-* Generates client code from **OpenAPI 3.0, 2.0** (aka Swagger) and **AsyncAPI**
+* Generates client code from **OpenAPI 3.0, 2.0** (aka Swagger) and **AsyncAPI** specs
 * **Pluggable HTTP clients:** can use `fetch`, `Axios` or any other library
-* **Flexible response types:** works with promises and reactive streams like RxJS
+* **Flexible response types:** works with Promises and reactive streams like RxJS
 * **Runtime type checks:** validates server responses against the spec
 * Written in **pure TypeScript** using [`fp-ts`](https://github.com/gcanti/fp-ts) and [`io-ts`](https://github.com/gcanti/io-ts) libraries
 
@@ -20,7 +20,7 @@ import { petController as createPetController } from "./src/generated/petstore.j
 import { Pet } from "./src/generated/petstore.json/components/schemas/Pet";
 
 // Creating a controller, see the "HTTP Clients" wiki page for more details
-const petController = createPetController(fetchHttpClient);
+const petController = createPetController({ httpClient: fetchHttpClient });
 
 // The returned object is guaranteed to be a valid `Pet`
 const createdPet: Promise<Pet> = petController.addPet({
@@ -37,10 +37,10 @@ More usage scenarios are supported - check the [usage page](./docs/usage/generat
 ## Installation
 
 1. Make sure the peer dependencies are installed, then install the codegen itself:
-```
-yarn add fp-ts io-ts io-ts-types
-yarn add -D @devexperts/swagger-codegen-ts
-```
+   ```
+   yarn add fp-ts io-ts io-ts-types
+   yarn add -D @devexperts/swagger-codegen-ts
+   ```
 
 2. Create a console script that would invoke the `generate` function, passing the options such as path to the schema file and the output directory.
 See the [Generators](docs/usage/api.md) page for the API reference, and [examples/generate](examples/generate) for sample scripts.
