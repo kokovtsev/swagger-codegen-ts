@@ -15,6 +15,8 @@ generate({
 });
 ```
 
+See the typedocs for more info about the options.
+
 # CLI
 
 Not implemented yet - PRs are highly welcome!

@@ -38,7 +38,7 @@ More usage scenarios are supported - check the [usage page](./docs/usage/generat
 
 1. Make sure the peer dependencies are installed, then install the codegen itself:
    ```
-   yarn add fp-ts io-ts io-ts-types
+   yarn add typescript fp-ts io-ts io-ts-types
    yarn add -D @devexperts/swagger-codegen-ts
    ```
 
